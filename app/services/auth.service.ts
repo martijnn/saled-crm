@@ -1,24 +1,30 @@
 import {Observable} from "rxjs/Observable";
+import {Injectable, EventEmitter} from "angular2/core";
 
+@Injectable()
 export class AuthService {
-    private loggedIn = false;
+    private _loggedIn: boolean;
+    public loginState$: EventEmitter<boolean>;
 
     constructor() {
-        this.loggedIn = false;
+        this.loginState$ = new EventEmitter();
+        this._loggedIn = false;
     }
 
-    login(email, password) {
-        this.loggedIn = true;
-        console.log('Login submitted succesfully');
+    login(email: string, password: string) {
+        this.loginState$.emit(true);
+        this._loggedIn = true;
+        return Observable.of(this._loggedIn);
     }
 
     logout() {
-        this.loggedIn = false;
-        console.log('Logged out succesfully');
+        this.loginState$.emit(false);
+        this._loggedIn = false;
+        return Observable.of(this._loggedIn);
     }
 
     check() {
-        return Observable.of(this.loggedIn);
+        return Observable.of(this._loggedIn);
     }
     
 }

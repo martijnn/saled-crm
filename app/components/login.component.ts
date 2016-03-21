@@ -53,14 +53,14 @@ import {AuthService} from "../services/auth.service";
 })
 export class LoginComponent {
 
-    constructor(private userService: AuthService, private router: Router) {
+    constructor(private authService: AuthService, private router: Router) {
     }
 
     onSubmit(email, password) {
-        this.userService.login(email, password)
-            .subscribe((result) => {
-                if (result)
-                    this.router.navigate(['Home'])
+        this.authService.login(email, password)
+            .subscribe((loggedin: boolean) => {
+                if (loggedin)
+                    this.router.navigate(['Leads'])
             });
     }
 

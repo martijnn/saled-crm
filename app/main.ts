@@ -10,8 +10,8 @@ import 'rxjs/Rx';
 
 bootstrap(AppComponent, [
     AuthService,
-    HTTP_PROVIDERS,
-    ROUTER_PROVIDERS,
+    ...HTTP_PROVIDERS,
+    ...ROUTER_PROVIDERS,
     provide(APP_BASE_HREF, {useValue : '/' })
 ]).then((appRef: ComponentRef) => {
     appInjector(appRef.injector);
