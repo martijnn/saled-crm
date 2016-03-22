@@ -1,6 +1,6 @@
-export interface Lead {
+export interface ILead {
     priority: number;
     company_name: string;
-    person_responsible: string;
+    person_responsible?: string;
     status: string;
 }

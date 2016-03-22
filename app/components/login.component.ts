@@ -53,8 +53,7 @@ import {AuthService} from "../services/auth.service";
 })
 export class LoginComponent {
 
-    constructor(private authService: AuthService, private router: Router) {
-    }
+    constructor(private authService: AuthService, private router: Router) {}
 
     onSubmit(email, password) {
         this.authService.login(email, password)

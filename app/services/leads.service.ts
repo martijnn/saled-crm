@@ -1,10 +1,11 @@
 import {Injectable} from "angular2/core";
-import {Lead} from "../models/lead.model";
+import {ILead} from "../models/lead.model";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class LeadsService {
 
-    private _leads: Array<Lead> = [
+    public _leads: Array<ILead> = [
         {
             'priority': 1,
             'company_name': 'SALED b.v.',
@@ -19,8 +20,11 @@ export class LeadsService {
         }
     ];
 
-    GetAllLeads(){
-        return this._leads;
+    getAllLeads() {
+        return Observable.of(this._leads);
     }
 
+    addLead(lead: ILead) {
+        this._leads.push(lead);
+    }
 }

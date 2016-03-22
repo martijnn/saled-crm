@@ -34,6 +34,6 @@ import {LeadsComponent} from "./leads.component";
     {path:'/', name: 'Home', component: HomeComponent},
     {path:'/login', name: 'Login', component: LoginComponent},
     {path:'/sign-up', name: 'Signup', component: SignupComponent},
-    {path:'/leads', name: 'Leads', component: LeadsComponent}
+    {path:'/leads/...', name: 'Leads', component: LeadsComponent}
 ])
 export class AppComponent { }
