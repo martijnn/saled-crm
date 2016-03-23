@@ -5,7 +5,7 @@ import {Component} from 'angular2/core';
     <footer>
       <div class="ui vertical footer segment">
         <div class="ui center aligned container">
-          Copyright
+          
         </div>
       </div>
     </footer>

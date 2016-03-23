@@ -32,7 +32,6 @@ export class HeaderComponent {
     constructor(private authService: AuthService, private router: Router) {
         authService.loginState$.subscribe((val: boolean) => {
             this.userIsLoggedIn = val;
-            console.log('val: ' + val);
         });
     }
 

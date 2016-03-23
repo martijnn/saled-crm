@@ -5,7 +5,7 @@ import {Observable} from "rxjs/Observable";
 @Injectable()
 export class LeadsService {
 
-    public _leads: Array<ILead> = [
+    private _leads: Array<ILead> = [
         {
             'priority': 1,
             'company_name': 'SALED b.v.',
@@ -25,6 +25,7 @@ export class LeadsService {
     }
 
     addLead(lead: ILead) {
+        console.log(lead);
         this._leads.push(lead);
     }
 }

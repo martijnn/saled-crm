@@ -35,7 +35,12 @@ import {ROUTER_DIRECTIVES} from "angular2/router";
     </div>
     `,
     directives: [ROUTER_DIRECTIVES],
-    providers: [LeadsService]
+    providers: [LeadsService],
+    styles: [`
+    .ui.container {
+        margin-top: 50px;
+    }
+    `]
 })
 export class LeadsListComponent implements OnInit {
     leads: Array<ILead>;
