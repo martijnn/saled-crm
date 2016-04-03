@@ -39,7 +39,7 @@ export class LeadsCreateComponent {
     constructor(private _leadsService: LeadsService, private _router: Router) {}
 
     onSubmit(lead) {
-        this._leadsService.addLead(lead);
+        this._leadsService.createLead(lead);
         this._router.navigate(["../LeadsList"]);
         return false;
     }

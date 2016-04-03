@@ -1,32 +1,51 @@
 import {Injectable} from "angular2/core";
 import {Lead} from "../models/lead.model";
 import {Http, RequestOptions, Headers} from "angular2/http";
-import {Subject} from "rxjs/Subject";
+import {Observable} from "rxjs/Observable";
+import {Observer} from "rxjs/Observer";
+import "rxjs/add/operator/share";
+import "rxjs/add/operator/startWith";
 
 @Injectable()
 export class LeadsService {
 
-    private _leadAddedSource = new Subject<Lead>();
-    public leadAdded$ = this._leadAddedSource.asObservable();
+    leads$: Observable<Lead[]>;
+    private _leadsObserver: Observer<Lead[]>;
+    private _dataStore: {leads: Lead[]};
 
-    constructor(private http: Http) {}
+    constructor(private _http: Http) {
+        this._dataStore = {leads: []};
 
-    getAllLeads() {
+        this.leads$ = new Observable(observer => {this._leadsObserver = observer; })
+            .startWith(this._dataStore.leads)
+            .share();
+    };
+
+    loadLeads() {
         let headers: Headers = new Headers({"Auth": localStorage.getItem("jwt"), "Content-type": "application/json"});
         let opts: RequestOptions = new RequestOptions({headers: headers});
 
-        return this.http.get("api/leads", opts)
-            .map((res: any) => res.json());
+        this._http.get("api/leads", opts)
+            .map(response => response.json())
+            .subscribe(data => {
+                this._dataStore.leads = data;
+                this._leadsObserver.next(this._dataStore.leads);
+            }, error => console.log("Could not load leads."));
     }
 
-    addLead(lead: Lead) {
+    createLead(lead: Lead) {
         let headers: Headers = new Headers({"Auth": localStorage.getItem("jwt"), "Content-type": "application/json"});
         let opts: RequestOptions = new RequestOptions({headers: headers});
 
-        this.http.post("api/leads/create", JSON.stringify({lead: lead}), opts)
-            .map(res => res.json())
-            .subscribe(res => console.log(res));
+        this._http.post("api/leads/create", JSON.stringify({lead: lead}), opts)
+            .map(response => response.json()).subscribe(data => {
+            this._dataStore.leads.push(data);
+            this._leadsObserver.next(this._dataStore.leads);
+        }, error => console.log("Could not create lead."));
+    }
 
-        this._leadAddedSource.next(lead);
+    loadLead(leadId) {
+        // todo, fix this
+        return this._dataStore.leads.filter(lead => lead.id === leadId);
     }
 }

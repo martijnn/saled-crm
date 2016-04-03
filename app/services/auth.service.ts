@@ -3,7 +3,6 @@ import {Injectable} from "angular2/core";
 import {Http, Headers, RequestOptions} from "angular2/http";
 import "rxjs/operator/map";
 import {Subject} from "rxjs/Subject";
-import {Observer} from "rxjs/Observer";
 
 @Injectable()
 export class AuthService {
@@ -19,7 +18,7 @@ export class AuthService {
     signup(email: string, password: string) {
         let headers: Headers = new Headers({"Content-type": "application/json"});
         let opts = new RequestOptions({headers: headers});
-        return Observable.create((observer: Observer) => {
+        return Observable.create((observer) => {
             this.http.post("/login/signup", JSON.stringify({email: email, password: password}), opts)
                 .map((res: any) => res.json())
                 .subscribe(
@@ -42,7 +41,7 @@ export class AuthService {
     login(email: string, password: string) {
         let headers: Headers = new Headers({"Content-type": "application/json"});
         let opts = new RequestOptions({headers: headers});
-        return Observable.create((observer: Observer) => {
+        return Observable.create((observer) => {
             this.http.post("/login", JSON.stringify({email: email, password: password}), opts)
                 .map(res => res.json())
                 .subscribe(

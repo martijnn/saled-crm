@@ -3,7 +3,7 @@ import {ComponentInstruction, CanActivate, RouteConfig, RouterOutlet} from "angu
 import {isLoggedIn} from "../constants/is-logged-in.constant";
 import {LeadsListComponent} from "./leads-list.component";
 import {LeadsCreateComponent} from "./leads-create.component";
-import {LeadsShowComponent} from "./leads-show.component";
+import {LeadsEditComponent} from "./leads-edit.component";
 import {LeadsService} from "../services/leads.service";
 
 @Component({
@@ -25,7 +25,7 @@ import {LeadsService} from "../services/leads.service";
 @RouteConfig([
     {path: "/", name: "LeadsList", component: LeadsListComponent, useAsDefault: true},
     {path: "/create", name: "LeadsCreate", component: LeadsCreateComponent},
-    {path: "/:id", name: "LeadsShow", component: LeadsShowComponent}
+    {path: "/:id", name: "LeadsEdit", component: LeadsEditComponent}
 ])
 export class LeadsComponent {
 

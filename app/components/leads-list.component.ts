@@ -29,7 +29,7 @@ import {ROUTER_DIRECTIVES} from "angular2/router";
                   <td>
                     {{lead.status}}
                   </td>
-                  <td [routerLink]="['LeadsShow', {id: lead.id}]" class="collapsing"><i class="large edit link icon"></i></td>
+                  <td [routerLink]="['LeadsEdit', {id: lead.id}]" class="collapsing"><i class="large edit link icon"></i></td>
                 </tr>
             </tbody>
         </table>
@@ -43,15 +43,13 @@ import {ROUTER_DIRECTIVES} from "angular2/router";
     `]
 })
 export class LeadsListComponent implements OnInit {
-    leads: Array<Lead> = [];
+    leads: Lead[] = [];
 
-    constructor(private _leadsService: LeadsService) {
-        _leadsService.leadAdded$.subscribe((lead: Lead) => this.leads.push(lead));
-    }
+    constructor(private _leadsService: LeadsService) {}
 
     ngOnInit() {
-        this._leadsService.getAllLeads()
-            .subscribe((leads: Array<Lead>) => this.leads = leads);
+        this._leadsService.leads$.subscribe((leads: Lead[]) => this.leads = leads);
+        this._leadsService.loadLeads();
     }
 
 }
