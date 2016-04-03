@@ -1,6 +1,5 @@
 import {Component} from "angular2/core";
 import {LeadsService} from "../services/leads.service";
-import {ILead} from "../models/lead.model";
 import {Router} from "angular2/router";
 import {FORM_DIRECTIVES} from "angular2/common";
 
@@ -28,7 +27,6 @@ import {FORM_DIRECTIVES} from "angular2/common";
         </form>
     </div>
     `,
-    providers: [LeadsService],
     directives: [FORM_DIRECTIVES],
     styles: [`
     .ui.container {
@@ -42,7 +40,7 @@ export class LeadsCreateComponent {
 
     onSubmit(lead) {
         this._leadsService.addLead(lead);
-        this._router.navigate(['../LeadsList']);
+        this._router.navigate(["../LeadsList"]);
         return false;
     }
 

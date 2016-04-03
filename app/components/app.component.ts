@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component} from "angular2/core";
 import {HeaderComponent} from "./header.component";
 import {HomeComponent} from "./home.component";
 import {FooterComponent} from "./footer.component";
@@ -10,7 +10,7 @@ import {SignupComponent} from "./signup.component";
 import {LeadsComponent} from "./leads.component";
 
 @Component({
-    selector: 'my-app',
+    selector: "app",
     template: `
     <body class="wrapper">
         <sl-sidebar></sl-sidebar>
@@ -21,7 +21,7 @@ import {LeadsComponent} from "./leads.component";
 
     </body>
     `,
-    directives: [HeaderComponent, HomeComponent, FooterComponent, LoginComponent, ROUTER_DIRECTIVES, SidebarComponent],
+    directives: [FooterComponent, HeaderComponent, HomeComponent, LoginComponent, ROUTER_DIRECTIVES, SidebarComponent],
     styles: [`
     .wrapper {
         background: #348F50; /* fallback for old browsers */
@@ -31,9 +31,9 @@ import {LeadsComponent} from "./leads.component";
     `]
 })
 @RouteConfig([
-    {path:'/', name: 'Home', component: HomeComponent},
-    {path:'/login', name: 'Login', component: LoginComponent},
-    {path:'/sign-up', name: 'Signup', component: SignupComponent},
-    {path:'/leads/...', name: 'Leads', component: LeadsComponent}
+    {path: "/", name: "Home", component: HomeComponent},
+    {path: "/login", name: "Login", component: LoginComponent},
+    {path: "/sign-up", name: "Signup", component: SignupComponent},
+    {path: "/leads/...", name: "Leads", component: LeadsComponent}
 ])
 export class AppComponent { }

@@ -1,6 +1,6 @@
 import {Component} from "angular2/core";
 @Component({
-    selector: 'sl-sidebar',
+    selector: "sl-sidebar",
     template: `
     <div class="ui left vertical menu sidebar">
         <a class="item">

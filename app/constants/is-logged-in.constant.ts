@@ -1,7 +1,7 @@
-import {Injector} from 'angular2/core';
+import {Injector} from "angular2/core";
 import {appInjector} from "./app-injector";
 import {AuthService} from "../services/auth.service";
-import {Router, ComponentInstruction} from 'angular2/router';
+import {Router, ComponentInstruction} from "angular2/router";
 
 export const isLoggedIn = (next: ComponentInstruction, previous: ComponentInstruction) => {
     let injector: Injector = appInjector(); // get the stored reference to the injector
@@ -15,7 +15,7 @@ export const isLoggedIn = (next: ComponentInstruction, previous: ComponentInstru
                 if (result) {
                     resolve(true);
                 } else {
-                    router.navigate(['/Login']);
+                    router.navigate(["/Login"]);
                     resolve(false);
                 }
             });

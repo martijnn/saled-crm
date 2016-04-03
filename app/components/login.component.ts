@@ -1,6 +1,7 @@
-import {Component} from 'angular2/core';
+import {Component} from "angular2/core";
 import {ROUTER_DIRECTIVES, Router} from "angular2/router";
 import {AuthService} from "../services/auth.service";
+import {FORM_DIRECTIVES, FormBuilder, ControlGroup, Validators, Control} from "angular2/common";
 @Component({
     template: `
     <div class="ui middle aligned center aligned grid">
@@ -10,21 +11,22 @@ import {AuthService} from "../services/auth.service";
             Inloggen
           </div>
         </h2>
-        <form class="ui large form">
+        <form class="ui large form" [ngFormModel]="loginForm">
           <div class="ui stacked segment">
             <div class="field">
               <div class="ui left icon input">
                 <i class="user icon"></i>
-                <input type="text" name="email" placeholder="E-mail address" #email>
+                <input type="text" name="email" placeholder="E-mail address" ngControl="email">
               </div>
             </div>
             <div class="field">
               <div class="ui left icon input">
                 <i class="lock icon"></i>
-                <input type="password" name="password" placeholder="Password" #password>
+                <input type="password" name="password" placeholder="Password" ngControl="password">
               </div>
             </div>
-            <div class="ui fluid large teal submit button" (click)="onSubmit(email, password)">Login</div>
+            <div class="ui fluid large teal submit button" (click)="onSubmit()">Login</div>
+            <div *ngIf="error">{{error}}</div>
           </div>
 
           <div class="ui error message"></div>
@@ -49,18 +51,33 @@ import {AuthService} from "../services/auth.service";
         }
     `
     ],
-    directives: [ROUTER_DIRECTIVES]
+    directives: [ROUTER_DIRECTIVES, FORM_DIRECTIVES]
 })
 export class LoginComponent {
+    error: string;
+    loginForm: ControlGroup;
 
-    constructor(private authService: AuthService, private router: Router) {}
+    constructor(private _authService: AuthService, private _router: Router, _fb: FormBuilder) {
+        this.loginForm = _fb.group({
+            email: new Control("", Validators.compose([Validators.required])),
+            password: new Control("", Validators.compose([Validators.required]))
+        });
+    }
 
-    onSubmit(email, password) {
-        this.authService.login(email, password)
-            .subscribe((loggedin: boolean) => {
-                if (loggedin)
-                    this.router.navigate(['Leads'])
-            });
+    onSubmit() {
+        // this._authService.login("john", "angualr2express")
+        this._authService.login(this.loginForm.value.email, this.loginForm.value.password)
+            .subscribe(
+                (loggedin: boolean) => {
+                    if (loggedin) {
+                        this._router.navigate(["Leads"]);
+                    } else {
+                        this.error = "Ongeldige login";
+                    }
+                },
+                (err: any) => console.log(err),
+                () => console.log("Submit completed")
+            );
     }
 
 }

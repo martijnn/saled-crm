@@ -1,9 +1,9 @@
-import {Component} from 'angular2/core';
+import {Component} from "angular2/core";
 import {ROUTER_DIRECTIVES, Router} from "angular2/router";
 import {AuthService} from "../services/auth.service";
 
 @Component({
-    selector: 'sl-header',
+    selector: "sl-header",
     template: `
     <div class="ui main menu">
       <div class="header item">
@@ -30,16 +30,17 @@ export class HeaderComponent {
     userIsLoggedIn: boolean;
 
     constructor(private authService: AuthService, private router: Router) {
-        authService.loginState$.subscribe((val: boolean) => {
-            this.userIsLoggedIn = val;
+        authService.loginState$.subscribe((loggedIn: boolean) => {
+            this.userIsLoggedIn = loggedIn;
         });
     }
 
     handleLogOut() {
         this.authService.logout()
             .subscribe((loggedin: boolean) => {
-                if (!loggedin)
-                    this.router.navigate(['Home'])
+                if (!loggedin) {
+                    this.router.navigate(["Home"]);
+                }
             });
     }
 

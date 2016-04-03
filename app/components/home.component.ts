@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component} from "angular2/core";
 @Component({
     template: `
     <h1>SALED CRM</h1>

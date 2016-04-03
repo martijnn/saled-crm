@@ -1,6 +1,6 @@
-import {Component} from 'angular2/core';
+import {Component} from "angular2/core";
 @Component({
-    selector: 'sl-footer',
+    selector: "sl-footer",
     template: `
     <footer>
       <div class="ui vertical footer segment">

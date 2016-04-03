@@ -7,17 +7,30 @@
     "tsc:w": "tsc -w",
     "lite": "lite-server",
     "typings": "typings",
-    "postinstall": "typings install"
+    "postinstall": "typings install",
+    "serve": "concurrently \"gulp watch\" \"node ./server/bin/www\""
   },
   "dependencies": {
-    "angular2": "2.0.0-beta.11",
-    "es6-promise": "^3.0.2",
+    "angular2": "2.0.0-beta.12",
+    "angular2-jwt": "^0.1.8",
+    "body-parser": "^1.15.0",
+    "cookie-parser": "^1.4.1",
     "es6-shim": "^0.35.0",
+    "express": "^4.13.4",
+    "gulp": "^3.9.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-tslint": "^4.3.4",
+    "gulp-typescript": "^2.12.1",
+    "jsonwebtoken": "^5.7.0",
+    "mongolab-data-api": "^1.1.4",
+    "morgan": "^1.7.0",
     "reflect-metadata": "0.1.2",
     "rxjs": "5.0.0-beta.2",
     "semantic-ui": "^2.1.8",
+    "serve-favicon": "^2.3.0",
     "systemjs": "0.19.24",
-    "zone.js": "0.6.4"
+    "tslint": "^3.6.0",
+    "zone.js": "0.6.6"
   },
   "devDependencies": {
     "concurrently": "^2.0.0",

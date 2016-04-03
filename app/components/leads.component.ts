@@ -1,8 +1,11 @@
-import {Component} from 'angular2/core';
+import {Component} from "angular2/core";
 import {ComponentInstruction, CanActivate, RouteConfig, RouterOutlet} from "angular2/router";
 import {isLoggedIn} from "../constants/is-logged-in.constant";
 import {LeadsListComponent} from "./leads-list.component";
 import {LeadsCreateComponent} from "./leads-create.component";
+import {LeadsShowComponent} from "./leads-show.component";
+import {LeadsService} from "../services/leads.service";
+
 @Component({
     template: `
     <router-outlet></router-outlet>
@@ -13,14 +16,16 @@ import {LeadsCreateComponent} from "./leads-create.component";
         color: white;
     }
     `],
-    directives:[RouterOutlet]
+    directives: [RouterOutlet],
+    providers: [LeadsService]
 })
 @CanActivate((next: ComponentInstruction, previous: ComponentInstruction) => {
     return isLoggedIn(next, previous);
 })
 @RouteConfig([
-    {path:'/', name:'LeadsList', component: LeadsListComponent, useAsDefault: true},
-    {path:'/create', name:'LeadsCreate', component: LeadsCreateComponent}
+    {path: "/", name: "LeadsList", component: LeadsListComponent, useAsDefault: true},
+    {path: "/create", name: "LeadsCreate", component: LeadsCreateComponent},
+    {path: "/:id", name: "LeadsShow", component: LeadsShowComponent}
 ])
 export class LeadsComponent {
 
