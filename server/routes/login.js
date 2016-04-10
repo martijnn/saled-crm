@@ -3,7 +3,7 @@ var router = express.Router();
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 var config = require('../config');
-var mLab = require('mongolab-data-api')(config.mlab.apiKey);
+var mLab = require('mongolab-data-api')(config.db.mlab.apiKey);
 var LENGTH = 64;
 
 router.post('/signup', function(req, res, next) {
@@ -22,7 +22,7 @@ router.post('/signup', function(req, res, next) {
         if (err) throw err;
 
         var user = {
-            database: config.mlab.dbName,
+            database: config.db.mlab.dbName,
             collectionName: 'users',
             documents: {
                 email: req.body.email,
@@ -46,7 +46,7 @@ router.post('/signup', function(req, res, next) {
 router.post('/', function(req, res, next) {
 
     var options = {
-        database: config.mlab.dbName,
+        database: config.db.mlab.dbName,
         collectionName: 'users',
         query: '{ "email": "' + req.body.email + '" }',
         findOne: true

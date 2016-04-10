@@ -3,7 +3,7 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 var config = require('../config');
 // TODO, swap mlab with a local instance of mongodb
-var mLab = require('mongolab-data-api')(config.mlab.apiKey);
+var mLab = require('mongolab-data-api')(config.db.mlab.apiKey);
 
 router.use(function(req, res, next) {
     var token = req.headers.auth;
