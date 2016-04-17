@@ -2,8 +2,9 @@ var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
 var config = require('../config');
-// TODO, swap mlab with a local instance of mongodb
 var mLab = require('mongolab-data-api')(config.db.mlab.apiKey);
+var mongoose = require('mongoose');
+var Lead = mongoose.model('Leads');
 
 router.use(function(req, res, next) {
     var token = req.headers.auth;
@@ -27,35 +28,58 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/leads', function(req, res, next) {
-    var options = {
-        database: 'saled-crm',
-        collectionName: 'leads'
-    };
 
-    mLab.listDocuments(options, function(err, leads) {
-        if (err) {
-            console.log(err);
-        } else {
+    if (config.dev.mongoose) {
+
+        Lead.find({}, function(err, leads) {
+            if (err) throw err;
             res.json(leads);
-        }
-    });
+        });
+
+    } else {
+
+        var options = {
+            database: 'saled-crm',
+            collectionName: 'leads'
+        };
+
+        mLab.listDocuments(options, function(err, leads) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.json(leads);
+            }
+        });
+
+    }
 });
 
 router.post('/leads/create', function(req, res, next) {
 
-    var options = {
-        database: 'saled-crm',
-        collectionName: 'leads',
-        documents: req.body.lead
-    };
+    if (config.dev.mongoose) {
 
-    mLab.insertDocuments(options, function(err, doc) {
-        if (err) {
-            console.log(err);
-        } else {
+        Lead.create(req.body.lead, function(err, lead) {
+            if (err) throw err;
             res.json({message: "Lead created"});
-        }
-    });
+        });
+
+    } else {
+
+        var options = {
+            database: 'saled-crm',
+            collectionName: 'leads',
+            documents: req.body.lead
+        };
+
+        mLab.insertDocuments(options, function (err, doc) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.json({message: "Lead created"});
+            }
+        });
+
+    }
 
 });
 

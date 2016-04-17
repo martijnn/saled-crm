@@ -1,3 +1,5 @@
+'use strict';
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var uuid = require('uuid');
@@ -7,7 +9,7 @@ var LeadSchema = new Schema({
         type: String,
         default: uuid.v4
     },
-    priority: number,
+    priority: Number,
     company_name: String,
     person_responsible: String,
     status: {
@@ -25,4 +27,4 @@ var LeadSchema = new Schema({
     }
 });
 
-mongoose.model('Lead', LeadSchema);
+mongoose.model('Leads', LeadSchema);

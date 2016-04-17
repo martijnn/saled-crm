@@ -1,5 +1,7 @@
-var express = require('./express');
 var mongoose = require('./db/mongoose');
+mongoose.loadModels();
+
+var express = require('./express');
 var db = require('./db/main');
 var config = require('./config');
 
@@ -16,7 +18,6 @@ module.exports.start = function start() {
     var _this = this;
 
     _this.init(function(app, db, config) {
-
         app.listen(config.db.port, function() {
             console.log('--');
             console.log('App ' + config.app.title + ' started.');

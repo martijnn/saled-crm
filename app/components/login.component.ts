@@ -25,7 +25,7 @@ import {FORM_DIRECTIVES, FormBuilder, ControlGroup, Validators, Control} from "a
                 <input type="password" name="password" placeholder="Password" ngControl="password">
               </div>
             </div>
-            <div class="ui fluid large teal submit button" (click)="onSubmit()">Login</div>
+            <button class="ui fluid large teal submit button" (click)="onSubmit()">Login</button>
             <div *ngIf="error">{{error}}</div>
           </div>
 
@@ -65,7 +65,6 @@ export class LoginComponent {
     }
 
     onSubmit() {
-        // this._authService.login("john", "angualr2express")
         this._authService.login(this.loginForm.value.email, this.loginForm.value.password)
             .subscribe(
                 (loggedin: boolean) => {

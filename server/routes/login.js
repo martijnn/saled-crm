@@ -4,6 +4,9 @@ var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 var config = require('../config');
 var mLab = require('mongolab-data-api')(config.db.mlab.apiKey);
+var mongoose = require('mongoose');
+var User = mongoose.model('Users');
+
 var LENGTH = 64;
 
 router.post('/signup', function(req, res, next) {
@@ -13,61 +16,106 @@ router.post('/signup', function(req, res, next) {
         err.status = 500;
         return next(err);
     }
-
+    var email = req.body.email;
+    var password = req.body.password;
     var salt = crypto.randomBytes(128).toString("base64");
-    console.log(salt);
-    console.log(req.body.password);
-    crypto.pbkdf2(req.body.password, salt, 10000, LENGTH, function(err, hash) {
-        console.log(err);
-        if (err) throw err;
 
-        var user = {
-            database: config.db.mlab.dbName,
-            collectionName: 'users',
-            documents: {
-                email: req.body.email,
+    if (config.dev.mongoose) {
+
+        crypto.pbkdf2(password, salt, 10000, LENGTH, function(err, hash) {
+            if (err) throw err;
+
+            var user = new User({
+                email: email,
                 password: hash.toString("hex"),
                 salt: salt
-            }
-        };
+            });
 
-        mLab.insertDocuments(user, function(err, doc) {
-            if (err) {
-                console.log(err);
-            } else {
-                var token = jwt.sign(doc.email, config.authkey, { expiresIn: 60 * 60 * 24 * 7 });
-                res.json({"jwt": token});
-            }
+            user.save(function(err) {
+                if (err) throw err;
+            });
+
         });
 
-    });
+    } else {
+
+        crypto.pbkdf2(password, salt, 10000, LENGTH, function(err, hash) {
+            if (err) throw err;
+    
+            var user = {
+                database: config.db.mlab.dbName,
+                collectionName: 'users',
+                documents: {
+                    email: req.body.email,
+                    password: hash.toString("hex"),
+                    salt: salt
+                }
+            };
+    
+            mLab.insertDocuments(user, function(err, doc) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    var token = jwt.sign(doc.email, config.authkey, { expiresIn: 60 * 60 * 24 * 7 });
+                    res.json({"jwt": token});
+                }
+            });
+    
+        });
+    }
 });
 
 router.post('/', function(req, res, next) {
 
-    var options = {
-        database: config.db.mlab.dbName,
-        collectionName: 'users',
-        query: '{ "email": "' + req.body.email + '" }',
-        findOne: true
-    };
+    if (config.dev.mongoose) {
 
-    mLab.listDocuments(options, function(err, user) {
-        if (err) {
-            console.log(err);
-        } else {
-            crypto.pbkdf2(req.body.password, user.salt, 10000, LENGTH, function(err, hash) {
-                if (err) throw err;
-                
-                if (hash.toString("hex") === user.password) {
-                    var token = jwt.sign(user.email, config.authkey, { expiresIn: 60 * 60 * 24 * 7 });
-                    res.json({"jwt": token});
-                } else {
-                    res.json({message: "Wrong password"});
-                }
-            });
-        }
-    });
+        var query = {email: req.body.email};
+
+        User.findOne(query, function(err, user) {
+           if (err) {
+               console.log(err);
+               next(err);
+           } else {
+               crypto.pbkdf2(req.body.password, user.salt, 10000, LENGTH, function (err, hash) {
+                   if (err) throw err;
+
+                   if (hash.toString("hex") === user.password) {
+                       var token = jwt.sign(user.email, config.authkey, {expiresIn: 60 * 60 * 24 * 70});
+                       res.json({"jwt": token});
+                   } else {
+                       res.json({message: "Wrong password"});
+                   }
+               });
+           }
+        });
+
+    } else {
+
+        var options = {
+            database: config.db.mlab.dbName,
+            collectionName: 'users',
+            query: '{ "email": "' + req.body.email + '" }',
+            findOne: true
+        };
+
+        mLab.listDocuments(options, function (err, user) {
+            if (err) {
+                console.log(err);
+                next(err);
+            } else {
+                crypto.pbkdf2(req.body.password, user.salt, 10000, LENGTH, function (err, hash) {
+                    if (err) throw err;
+
+                    if (hash.toString("hex") === user.password) {
+                        var token = jwt.sign(user.email, config.authkey, {expiresIn: 60 * 60 * 24 * 7});
+                        res.json({"jwt": token});
+                    } else {
+                        res.json({message: "Wrong password"});
+                    }
+                });
+            }
+        });
+    }
 });
 
 module.exports = router;

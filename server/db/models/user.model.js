@@ -1,3 +1,5 @@
+'use strict';
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var uuid = require('uuid');
@@ -33,4 +35,4 @@ var UserSchema = new Schema({
     }
 });
 
-mongoose.model('User', UserSchema);
+mongoose.model('Users', UserSchema);
