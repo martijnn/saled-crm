@@ -5,9 +5,17 @@ import {Lead} from "../models/lead.model";
 @Component({
     template: `
     <div class="ui container">
-        Id: {{_lead}}
+        <div class="ui raised very padded text container segment">
+        <h2 class="item">{{_lead.company_name}}</h2>    
+        <div class="ui list">
+            <div class="item">Verantwoordelijke: {{_lead.person_responsible}}</div>
+            <div class="item">Status: {{_lead.status}}</div>
+            <div class="item">Prioriteit: {{_lead.priority}}</div>
+        </div>
+        
         <br>
         <button class="ui button" [routerLink]="['../LeadsList']">Terug</button>
+    </div>
     </div>
     `,
     directives: [ROUTER_DIRECTIVES],

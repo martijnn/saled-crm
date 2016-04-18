@@ -45,7 +45,6 @@ export class LeadsService {
     }
 
     loadLead(leadId) {
-        // todo, fix this
-        return this._dataStore.leads.filter(lead => lead.id === leadId);
+        return this._dataStore.leads.find(lead => lead.id === leadId);
     }
 }

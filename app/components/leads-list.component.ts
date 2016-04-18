@@ -5,7 +5,7 @@ import {ROUTER_DIRECTIVES} from "angular2/router";
 @Component({
     template: `
     <div class="ui container">
-        <table class="ui small green celled padded table">
+        <table class="ui small green selectable celled padded table">
             <thead>
                 <tr>
                     <th class="single line">Prioriteit</th>

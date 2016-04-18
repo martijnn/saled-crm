@@ -3,7 +3,13 @@ export interface ILead {
     priority: number;
     company_name: string;
     person_responsible?: string;
-    status: string;
+    status: LeadStatus;
+}
+
+export enum LeadStatus {
+    Open = <any>"Open",
+    Onderhanden = <any>"Onderhanden",
+    Gesloten = <any>"Gesloten"
 }
 
 export class Lead implements ILead {
@@ -11,7 +17,7 @@ export class Lead implements ILead {
     priority: number;
     company_name: string;
     person_responsible: string;
-    status: string;
+    status: LeadStatus;
 
     constructor(lead: any) {
         this.id = lead.id;
