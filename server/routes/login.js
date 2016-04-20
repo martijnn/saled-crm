@@ -72,7 +72,7 @@ router.post('/', function(req, res, next) {
         var query = {email: req.body.email};
 
         User.findOne(query, function(err, user) {
-           if (err) {
+           if (err || user === undefined) {
                console.log(err);
                next(err);
            } else {

@@ -38,7 +38,15 @@
     </head>
 <!-- 3. Display the application -->
     <body>
-    <app>Loading...</app>
+
+        <app>
+            <div class="ui active inverted dimmer">
+                <div class="ui text loader">
+                    Loading
+                </div>
+            </div>
+        </app>
+
         <script>
             System.import('/js/main')
                 .catch(console.error.bind(console));

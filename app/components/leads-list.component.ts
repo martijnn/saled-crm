@@ -1,7 +1,7 @@
 import {Component, OnInit} from "angular2/core";
 import {Lead} from "../models/lead.model";
 import {LeadsService} from "../services/leads.service";
-import {ROUTER_DIRECTIVES} from "angular2/router";
+import {ROUTER_DIRECTIVES, Router} from "angular2/router";
 @Component({
     template: `
     <div class="ui container">
@@ -16,7 +16,7 @@ import {ROUTER_DIRECTIVES} from "angular2/router";
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="#lead of leads">
+                <tr *ngFor="#lead of leads" (click)="showLead(lead)">
                   <td>
                     <h2 class="ui center aligned header">{{lead.priority}}</h2>
                   </td>
@@ -35,21 +35,20 @@ import {ROUTER_DIRECTIVES} from "angular2/router";
         </table>
     </div>
     `,
-    directives: [ROUTER_DIRECTIVES],
-    styles: [`
-    .ui.container {
-        margin-top: 50px;
-    }
-    `]
+    directives: [ROUTER_DIRECTIVES]
 })
 export class LeadsListComponent implements OnInit {
     leads: Lead[] = [];
 
-    constructor(private _leadsService: LeadsService) {}
+    constructor(private _leadsService: LeadsService, private _router: Router) {}
 
     ngOnInit() {
         this._leadsService.leads$.subscribe((leads: Lead[]) => this.leads = leads);
         this._leadsService.loadLeads();
+    }
+
+    showLead(lead) {
+        this._router.navigate(["LeadsShow", {id: lead.id}]);
     }
 
 }

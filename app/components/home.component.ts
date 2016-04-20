@@ -13,9 +13,6 @@ import {Component} from "angular2/core";
         text-align: center;
         color: white;
     }
-    .ui.container {
-        margin-top: 50px;
-    }
     .ui.header {
         color: white;
     }

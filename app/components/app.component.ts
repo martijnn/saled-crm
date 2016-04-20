@@ -28,6 +28,9 @@ import {LeadsComponent} from "./leads.component";
         background: -webkit-linear-gradient(to left, #348F50 , #56B4D3); /* Chrome 10-25, Safari 5.1-6 */
         background: linear-gradient(to left, #348F50 , #56B4D3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     }
+    :host >>> .ui.container {
+        margin-top: 50px;
+    }
     `]
 })
 @RouteConfig([

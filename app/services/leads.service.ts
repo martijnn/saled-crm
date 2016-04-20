@@ -47,4 +47,16 @@ export class LeadsService {
     loadLead(leadId) {
         return this._dataStore.leads.find(lead => lead.id === leadId);
     }
+
+    updateLead(lead: Lead) {
+        let headers: Headers = new Headers({"Auth": localStorage.getItem("jwt"), "Content-type": "application/json"});
+        let opts: RequestOptions = new RequestOptions({headers: headers});
+
+        this._http.put("api/leads/update", JSON.stringify({lead: lead}), opts)
+            .map(response => response.json())
+            .subscribe(data => {
+                console.log("Lead saved: " + JSON.stringify(data));
+            });
+    }
+
 }

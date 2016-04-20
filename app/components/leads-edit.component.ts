@@ -15,15 +15,11 @@ import {Lead} from "../models/lead.model";
         
         <br>
         <button class="ui button" [routerLink]="['../LeadsList']">Terug</button>
+        <button class="ui right floated primary button" (click)="saveLead()">Opslaan</button>
     </div>
     </div>
     `,
-    directives: [ROUTER_DIRECTIVES],
-    styles: [`
-    .ui.container {
-        margin-top: 50px;
-    }
-    `]
+    directives: [ROUTER_DIRECTIVES]
 })
 export class LeadsEditComponent implements OnInit {
     private _lead: Lead;
@@ -34,5 +30,7 @@ export class LeadsEditComponent implements OnInit {
         this._lead = this._leadsService.loadLead(this._routeParams.get("id"));
     }
 
-
+    saveLead() {
+        this._leadsService.updateLead(this._lead);
+    }
 }

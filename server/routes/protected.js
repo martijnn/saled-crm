@@ -83,4 +83,28 @@ router.post('/leads/create', function(req, res, next) {
 
 });
 
+router.put('/leads/update', function(req, res, next) {
+
+    var lead = req.body.lead;
+
+    if (config.dev.mongoose) {
+
+        var query = {_id: lead._id};
+        var update = lead;
+        var options = {new: true};
+
+        Lead.findOneAndUpdate(query, update, options, function(err, lead) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('Lead updated');
+                res.json({lead: lead});
+            }
+        });
+
+    } else {
+        console.log('Updating a lead is not supported when not using mongoose');
+    }
+});
+
 module.exports = router;

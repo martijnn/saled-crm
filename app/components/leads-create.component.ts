@@ -34,12 +34,7 @@ import {LeadStatus} from "../models/lead.model";
         </div>
     </div>
     `,
-    directives: [FORM_DIRECTIVES],
-    styles: [`
-    .ui.container {
-        margin-top: 50px;
-    }
-    `]
+    directives: [FORM_DIRECTIVES]
 })
 export class LeadsCreateComponent {
 
